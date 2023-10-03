@@ -21,6 +21,6 @@ jobs:
           ssh-private-key: ${{ secrets.DOKKU_KEY }}
       - name: Deploy
         run: |
-         ssh -oStrictHostKeyChecking=no -t dokku@190.105.205.115 git:from-image acc-squad-t1s3-front-dev ghcr.io/fedealvarenga/prueba_en_front_deploy:latest
+         ssh -t dokku@190.105.205.115 git:from-image acc-squad-t1s3-front-dev ghcr.io/fedealvarenga/prueba_en_front_deploy:latest
         env:
          SSH_PRIVATE_KEY: ${{ secrets.DOKKU_KEY }}
