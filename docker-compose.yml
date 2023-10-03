@@ -1,0 +1,6 @@
+version: '3'
+services:
+  mi-app:
+    image: federicoformoso/front_copal:latest
+    ports:
+      - "8080:80" 
