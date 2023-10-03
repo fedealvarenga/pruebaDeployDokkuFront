@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: |
+          docker login ghcr.io -u fedealvarenga --password ${{secrets.TOKEN}}
+          docker build . --tag ghcr.io/fedealvarenga/prueba_en_front_deploy:latest
+          docker push ghcr.io/fedealvarenga/prueba_en_front_deploy:latest
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DOKKU_KEY }}
+      - name: Deploy
+        run: |
+         ssh -oStrictHostKeyChecking=no -t dokku@190.105.205.115 git:from-image acc-squad-t1s3-front-dev ghcr.io/fedealvarenga/prueba_en_front_deploy:latest
+        env:
+         SSH_PRIVATE_KEY: ${{ secrets.DOKKU_KEY }}
